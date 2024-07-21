@@ -1,0 +1,24 @@
+#include <unordered_map>
+
+class TwoSum {
+public:
+    TwoSum() {}
+
+    void add(int number) {
+        cnt[number]++;
+    }
+    
+    bool find(int value) {
+        for (const auto& [num, count] : cnt) {
+            if (num * 2 == value) {
+                if (count >= 2) return true;
+            } else {
+                if (cnt.count(value - num)) return true;
+            }
+        }
+        return false;
+    }
+
+private:
+    std::unordered_map<int, int> cnt;
+};
