@@ -1,0 +1,32 @@
+#include <vector>
+#include <algorithm>
+
+class Solution {
+public:
+    int countPairs(std::vector<int>& nums1, std::vector<int>& nums2) {
+        std::vector<int> nums3(nums1.size());
+        // Calculate nums3 as the difference between nums1 and nums2
+        for (size_t i = 0; i < nums1.size(); ++i) {
+            nums3[i] = nums1[i] - nums2[i];
+        }
+        
+        // Sort nums3
+        std::sort(nums3.begin(), nums3.end());
+        
+        int beg = 0;
+        int end = nums3.size() - 1;
+        long long ans = 0;
+        
+        // Use two-pointer technique to count pairs
+        while (beg < end) {
+            if (nums3[beg] + nums3[end] > 0) {
+                ans += (end - beg);
+                --end;
+            } else {
+                ++beg;
+            }
+        }
+        
+        return static_cast<int>(ans);
+    }
+};
