@@ -1,0 +1,39 @@
+#include <vector>
+#include <algorithm>
+#include <unordered_map>
+#include <numeric>
+
+using namespace std;
+
+class Solution {
+public:
+    int solve(vector<int>& A, vector<int>& B, vector<int>& C, vector<int>& D, int target) {
+        vector<int> ab;
+        
+        // Compute all possible sums of elements from A and B
+        for (int a : A) {
+            for (int b : B) {
+                ab.push_back(a + b);
+            }
+        }
+        
+        // Sort the vector of sums
+        sort(ab.begin(), ab.end());
+        
+        int count = 0;
+        
+        // Iterate through all pairs (c, d) from C and D
+        for (int c : C) {
+            for (int d : D) {
+                // Compute the required complement for (c, d) to reach the target
+                int complement = target - c - d;
+                
+                // Use binary search to count the number of valid (a, b) pairs
+                count += upper_bound(ab.begin(), ab.end(), complement) - 
+                         lower_bound(ab.begin(), ab.end(), complement);
+            }
+        }
+        
+        return count;
+    }
+};
