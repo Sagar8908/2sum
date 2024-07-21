@@ -1,0 +1,32 @@
+#include <vector>
+#include <algorithm>
+#include <cmath>
+#include <limits>
+
+using namespace std;
+
+class Solution {
+public:
+    int solve(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+        int n = nums.size();
+        int ans = numeric_limits<int>::max();  // Use maximum integer value as initial answer
+        
+        for (int i = 0; i < n; ++i) {
+            for (int j = i; j < n; ++j) {
+                int curr = nums[i] + nums[j];
+                int beg = i + 1, end = j - 1;
+                while (beg < end) {
+                    int pair = nums[beg] + nums[end];
+                    ans = min(ans, abs(pair - curr));
+                    if (pair < curr) {
+                        ++beg;
+                    } else {
+                        --end;
+                    }
+                }
+            }
+        }
+        return ans;
+    }
+};
