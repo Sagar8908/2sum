@@ -1,0 +1,24 @@
+class Solution {
+public:
+    bool solve(TreeNode* a, TreeNode* b, int target) {
+        vector<int> arr1, arr2;
+        inorderTraversal(a, arr1);
+        inorderTraversal(b, arr2);
+        
+        unordered_set<int> set1(arr1.begin(), arr1.end());
+        for (int x : arr2) {
+            if (set1.count(target - x)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+private:
+    void inorderTraversal(TreeNode* node, vector<int>& res) {
+        if (!node) return;
+        inorderTraversal(node->left, res);
+        res.push_back(node->val);
+        inorderTraversal(node->right, res);
+    }
+};
