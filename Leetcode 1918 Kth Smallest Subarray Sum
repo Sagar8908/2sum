@@ -1,0 +1,45 @@
+#include <vector>
+#include <numeric>
+#include <algorithm>
+
+class Solution {
+public:
+    int kthSmallestSubarraySum(std::vector<int>& nums, int k) {
+        int n = nums.size();
+        std::vector<long long> acc(n + 1, 0);
+        
+        // Compute prefix sums
+        for (int i = 0; i < n; ++i) {
+            acc[i + 1] = acc[i] + nums[i];
+        }
+        
+        auto check = [&](long long T) -> bool {  // Number of subarray sums <= T
+            int beg = 0;
+            int end = 0;
+            long long ans = 0;
+            while (end < n + 1) {
+                if (acc[end] - acc[beg] <= T) {
+                    ++end;
+                } else {
+                    ans += n + 1 - end;
+                    ++beg;
+                }
+            }
+            return (n * (n + 1LL) / 2 - ans) >= k;
+        };
+        
+        long long beg = 0;
+        long long end = std::accumulate(nums.begin(), nums.end(), 0LL);
+        
+        while (beg + 1 < end) {
+            long long mid = (beg + end) / 2;
+            if (check(mid)) {
+                end = mid;
+            } else {
+                beg = mid;
+            }
+        }
+        
+        return static_cast<int>(end);
+    }
+};
