@@ -1,0 +1,25 @@
+
+class Solution {
+public:
+    bool twoSumBSTs(TreeNode* root1, TreeNode* root2, int target) {
+        std::vector<int> l1, l2;
+        dfs(root1, l1);
+        dfs(root2, l2);
+
+        std::unordered_set<int> set_l2(l2.begin(), l2.end());
+
+        for (int el : l1) {
+            if (set_l2.count(target - el)) return true;
+        }
+        
+        return false;
+    }
+
+private:
+    void dfs(TreeNode* node, std::vector<int>& ans) {
+        if (!node) return;
+        dfs(node->left, ans);
+        ans.push_back(node->val);
+        dfs(node->right, ans);
+    }
+};
