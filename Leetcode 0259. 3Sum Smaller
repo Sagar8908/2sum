@@ -1,0 +1,27 @@
+#include <vector>
+#include <algorithm>
+
+class Solution {
+public:
+    int threeSumSmaller(std::vector<int>& nums, int target) {
+        std::sort(nums.begin(), nums.end());
+        int n = nums.size();
+        int ans = 0;
+
+        for (int i = 0; i < n - 2; ++i) {
+            int goal = target - nums[i];
+            int beg = i + 1, end = n - 1;
+
+            while (beg < end) {
+                if (nums[beg] + nums[end] >= goal) {
+                    --end;
+                } else {
+                    ans += (end - beg);
+                    ++beg;
+                }
+            }
+        }
+
+        return ans;
+    }
+};
